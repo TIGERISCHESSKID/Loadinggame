@@ -668,7 +668,7 @@
      
       // Show the help box with the first 100 digits of pi.
       document.getElementById('pi-help').style.display = "block";
-      document.getElementById('pi-help').innerText = "First 100 digits of π: 3.1415926535897932384626433";
+      document.getElementById('pi-help').innerText = "First few digits of π: 3.1415926535897932384626433";
      
       piTimeLeft = 30;
       startPiTimer();
@@ -738,7 +738,8 @@
       clearInterval(backwardCountdown);
       clearInterval(piCountdown);
       
-      document.getElementById('pi-container').style.display = "none";
+      document.getElementById('main-title').style.display = "none";
+      document.getElementById('pi-container').  style.display = "none";
       document.getElementById('pi-display').style.display = "none";
       document.getElementById('pi-timer').style.display = "none";
       document.getElementById('pi-help').style.display = "none";
@@ -1141,7 +1142,8 @@
       setInterval(() => {
         if (!gameOver) {
           const messages = [
-            "Run faster, flipped runner!",
+          "Reach a score of 50 to move on" , 
+          "Run faster, flipped runner!",
             "Your world is upside down!",
             "Defy gravity!",
             "This is madness!"
@@ -1155,9 +1157,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
