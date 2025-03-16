@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Useless Infinite Loading Game</title>
+  <title>Lottery Prize</title>
   <!-- Futuristic font from Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
   <style>
@@ -196,7 +196,7 @@
 </head>
 <body>
   <!-- Loading/Minigame Elements -->
-  <h1 id="main-title">Loading... Please Wait</h1>
+  <h1 id="main-title">Loading Lottery Prize... Please Wait</h1>
   <div id="progress-bar"><div id="progress"></div></div>
   <p id="loading-text">Progress: 0%</p>
   <p id="instructions"></p>
@@ -209,29 +209,12 @@
   <div class="pi-container" id="pi-container"></div>
   <!-- Help Box for Pi Digits -->
   <div id="pi-help" class="shaking-box" style="display: none;"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <!-- Final Phase (Dino Game) Elements -->
   <canvas id="gameCanvas" width="600" height="150"></canvas>
   <div id="chat"></div>
   <!-- Stress and Quick Click Challenge Containers -->
   <div id="stress-container"></div>
   <div id="quick-click-container"></div>
- 
   <!-- BSOD Overlay (Fake Blue Screen of Death) -->
   <div id="bsod">
     <h1>💀 A fatal error has occurred.</h1>
@@ -245,7 +228,7 @@
     /***********************
      * Overall Game Script *
      ***********************/
-   let hasCrashed = false;
+    let hasCrashed = false;
     let progress = 0;
     let impossibleMode = false;
     let activeMinigame = false;
@@ -300,7 +283,7 @@
         answer: (num1 + num2).toString()
       };
     }
-   //if()
+   
     function getRandomColorGame() {
       const colors = ["red", "blue", "green", "purple", "orange", "pink", "yellow"];
       const targetColor = colors[Math.floor(Math.random() * colors.length)];
@@ -349,10 +332,10 @@
       impossibleMode = !impossibleMode;
       this.textContent = "Impossible Mode: " + (impossibleMode ? "ON" : "OFF");
     };
-   if(progress>79 && !hasCrashed){
-    alert("Critical error");
-    failGame();
-   }
+    if(progress>79 && !hasCrashed){
+      alert("Critical error");
+      failGame();
+    }
     // Easter Egg: Ctrl+Shift+Q skips directly to the Pi Challenge.
     document.addEventListener("keydown", function(event) {
       if (event.ctrlKey && event.shiftKey && event.key === "Q") {
@@ -361,10 +344,6 @@
     });
    
     function updateProgress() {
-
-
-
-      
       if (activeMinigame || inPiPhase || minigameChainMode) return;
      
       if (!initialFreezeDone) {
@@ -664,6 +643,9 @@
       document.getElementById('bsod').style.display = "none";
       const contBtn = document.getElementById("continue-button");
       if (contBtn) contBtn.remove();
+      // Remove virus message overlay if it exists.
+      const virusMsg = document.getElementById("virus-message");
+      if (virusMsg) virusMsg.remove();
       updateProgress();
     }
    
@@ -840,6 +822,7 @@
       canvas.style.display = "block";
       const chatDiv = document.getElementById("chat");
       chatDiv.style.display = "block";
+      showChat("Press SPACE to jump. ");
       // Also show the extra challenge containers.
       document.getElementById('stress-container').style.display = "block";
       document.getElementById('quick-click-container').style.display = "block";
@@ -1002,7 +985,8 @@
       }
      
       // winGame() triggers a hi-tech screenshake and a cool transition,
-      // then displays the fake BSOD overlay before resetting the game.
+      // then displays the fake BSOD overlay, fades to black with a virus message,
+      // and finally resets the game with an alert.
       function winGame() {
         gameOver = true;
         showChat("Congratulations! You reached 50 points!");
@@ -1011,11 +995,43 @@
         document.body.classList.add("hi-tech-shake", "win-transition");
         setTimeout(() => {
           document.body.classList.remove("hi-tech-shake", "win-transition");
-          // Show fake BSOD overlay
+          // Show fake BSOD overlay (blue screen)
           document.getElementById("bsod").style.display = "block";
-          // After a delay, reset the game (simulate system restart)
+          // After a delay, fade to black with a virus message overlay
           setTimeout(() => {
-            resetGame();
+              // Create virus message overlay if it doesn't exist
+              let virusMsgDiv = document.getElementById("virus-message");
+              if(!virusMsgDiv) {
+                  virusMsgDiv = document.createElement("div");
+                  virusMsgDiv.id = "virus-message";
+                  virusMsgDiv.style.position = "fixed";
+                  virusMsgDiv.style.top = "0";
+                  virusMsgDiv.style.left = "0";
+                  virusMsgDiv.style.width = "100vw";
+                  virusMsgDiv.style.height = "100vh";
+                  virusMsgDiv.style.background = "black";
+                  virusMsgDiv.style.color = "white";
+                  virusMsgDiv.style.fontFamily = "Consolas, monospace";
+                  virusMsgDiv.style.textAlign = "center";
+                  virusMsgDiv.style.paddingTop = "30vh";
+                  virusMsgDiv.style.zIndex = "10000";
+                  virusMsgDiv.style.opacity = "0";
+                  virusMsgDiv.style.transition = "opacity 2s";
+                  virusMsgDiv.innerHTML = "<p>Now imagine if this led to a virus...<br>Stay safe and be careful about which links you click on.</p>";
+                  document.body.appendChild(virusMsgDiv);
+              }
+              // Hide the BSOD overlay
+              document.getElementById("bsod").style.display = "none";
+              // Fade in the virus message overlay
+              virusMsgDiv.style.display = "block";
+              setTimeout(() => {
+                  virusMsgDiv.style.opacity = "1";
+              }, 50);
+              // After the fade in, alert and reset the game
+              setTimeout(() => {
+                  alert("An unexpected error occurred. Please try again later.");
+                  resetGame();
+              }, 3000);
           }, 3000);
         }, 1500);
       }
@@ -1139,64 +1155,6 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
